@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate} from 'react-router-dom'
 import axios from "axios"
+import { useDispatch } from "react-redux"
 
 
 function Login(){
@@ -8,6 +9,7 @@ function Login(){
     var[flag,setFlag]=useState(false)
     var user = {}
     var navigate = useNavigate()
+    var dispatch = useDispatch()
     
     function validate(){
       if(user.email==""|| user.email==undefined){
@@ -28,8 +30,14 @@ function Login(){
       }).then((response)=>{
         console.log("response from login api",response)
         if(response.data.token){
-          setError("Invalid or Bad credientials")        
-        }else{ navigate("/")}
+          localStorage.setItem("token", (response.data.token));
+          navigate("/")
+          dispatch({type:"LOGIN"})
+         
+            
+        }else{ 
+          setError("Invalid or Bad credientials")     
+        }
       },(error)=>{console.log("error from login api",error)})
   
 

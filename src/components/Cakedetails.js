@@ -8,10 +8,35 @@ function Cakedetails(){
     var [cake,setCake] =  useState()
     var navigate = useNavigate()
     var [isLoading,setIsloading] =  useState(false)
+    var navigate = useNavigate()
+    
 
 
    function addToCart(){
+    var cakedata = {
+      cakeid: cake.cakeid,
+      image: cake.image,
+      name: cake.name,
+      price: cake.price,
+      weight: cake.weight
+    }
+   if(localStorage.getItem("token")){
+    axios({
+      url: "https://apifromashu.herokuapp.com/api/addcaketocart", 
+      method: "post",
+      data:cakedata,
+      headers: {
+        authtoken:localStorage.getItem("token")}
+    }).then((response)=>{
+      console.log("response from signup api",response)
+      navigate("/kart")
+
+    },(error)=>{console.log("error from signup api",error)})
     
+  
+   }else{
+    window.location.href="/"
+   }
    }
 
     useEffect(()=>{

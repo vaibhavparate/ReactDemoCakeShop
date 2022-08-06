@@ -1,7 +1,9 @@
 import axios from "axios"
+import { Navigate, useNavigate } from "react-router"
 
 function Signup(){
     var userarray=[]
+    var navigate = useNavigate()
     var user = {}
     function register(){
       axios({
@@ -10,6 +12,9 @@ function Signup(){
         data:user
       }).then((response)=>{
         console.log("response from signup api",response)
+        if(response.data.message=="User Registered"){
+          navigate("/newuser")
+        }
       },(error)=>{console.log("error from signup api",error)})
         console.log(user)
     }
